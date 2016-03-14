@@ -32,11 +32,26 @@ Gdocs.fetch = function (config) {
             return res.json();
           })
           .then(data => {
-            console.log('rr2', data);
             let parsed = Gdocs.parseData(data);
-            console.log('rr22', parsed);
-            resolve(data);
-          })
+						let output = {};
+ 			      
+						let fields = parsed.fields.map(fieldId => {
+							return {id: fieldId};
+						});
+
+						let metadata = Object.assign(urls, {
+									title: data.spreadsheetTitle +" - "+ data.worksheetTitle,
+									spreadsheetTitle: data.spreadsheetTitle,
+									worksheetTitle  : parsed.worksheetTitle
+						});
+						
+						output.metadata = metadata;
+					  output.records = parsed.records;
+            output.fields = parsed.fields;
+            output.useMemoryStore = true;
+            console.log('output', output);
+						resolve(output);
+					})
           .catch(e => {
             console.log('Error fetching data', e);
             reject(e);
@@ -95,6 +110,8 @@ Gdocs.getGdocsApiUrls = function(url, worksheetIndex) {
   };
 };
 
+
+// Clean up response data
 Gdocs.parseData = function(gdocsSpreadsheet, options) {
     var options  = options || {};
     var colTypes = options.colTypes || {};
