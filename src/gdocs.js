@@ -5,7 +5,7 @@ const Gdocs = {};
 Gdocs.__type__ = 'gdocs';
 
 Gdocs.fetchTitle = function (config) {
-  var urls = Gdocs.getGdocsApiUrls(config.url, config.worksheetIndex);
+  const urls = Gdocs.getGdocsApiUrls(config.url, config.worksheetIndex);
   return new Promise((resolve, reject) => {
     fetch(urls.spreadsheetAPI)
       .then(res => {
@@ -19,7 +19,34 @@ Gdocs.fetchTitle = function (config) {
       console.log('Error fetching title', e);
       reject(e);
     });
-}
+};
+
+Gdocs.fetch = function (config) {
+  const urls = Gdocs.getGdocsApiUrls(config.url, config.worksheetIndex);
+  return new Promise((resolve, reject) => {
+    Gdocs.fetchTitle(config)
+      .then(title => {
+        // Now fetch the data
+        fetch(urls.worksheetAPI)
+          .then(res => {
+            return res.json();
+          })
+          .then(data => {
+            console.log('rr2', data);
+            let parsed = Gdocs.parseData(data);
+            console.log('rr22', parsed);
+            resolve(data);
+          })
+          .catch(e => {
+            console.log('Error fetching data', e);
+            reject(e);
+          }); 
+      })
+      .catch(e => {
+        reject(e);
+      });
+  });
+};
 
 // Convenience function to get GDocs JSON API Url from standard URL
 //
@@ -67,4 +94,53 @@ Gdocs.getGdocsApiUrls = function(url, worksheetIndex) {
     worksheetIndex: worksheet
   };
 };
+
+Gdocs.parseData = function(gdocsSpreadsheet, options) {
+    var options  = options || {};
+    var colTypes = options.colTypes || {};
+    var results = {
+      fields : [],
+      records: []
+    };
+    var entries = gdocsSpreadsheet.feed.entry || [];
+    var key;
+    var colName;
+    // percentage values (e.g. 23.3%)
+    var rep = /^([\d\.\-]+)\%$/;
+
+    for(key in entries[0]) {
+      // it's barely possible it has inherited keys starting with 'gsx$'
+      if(/^gsx/.test(key)) {
+        colName = key.substr(4);
+        results.fields.push(colName);
+      }
+    }
+
+    // converts non numberical values that should be numerical (22.3%[string] -> 0.223[float])
+    results.records = entries.map(entry => {
+      var row = {};
+
+      results.fields.forEach(col => {
+        var _keyname = 'gsx$' + col;
+        var value = entry[_keyname].$t;
+        var num;
+ 
+        // TODO cover this part of code with test
+        // TODO use the regexp only once
+        // if labelled as % and value contains %, convert
+        if(colTypes[col] === 'percent' && rep.test(value)) {
+          num   = rep.exec(value)[1];
+          value = parseFloat(num) / 100;
+        }
+
+        row[col] = value;
+      });
+
+      return row;
+    });
+
+    results.worksheetTitle = gdocsSpreadsheet.feed.title.$t;
+    return results;
+  };
+
 export default Gdocs;

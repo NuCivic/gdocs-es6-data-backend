@@ -35,3 +35,22 @@ describe('Should fetch title', () => {
     expect(title).toBe('ReclineJS Example');
   });
 });
+
+describe('Fetch body', () => {
+  const config = {
+    url: 'https://docs.google.com/spreadsheet/ccc?key=0Aon3JiuouxLUdGZPaUZsMjBxeGhfOWRlWm85MmV0UUE#gid=0'
+  };
+  let result;
+
+  beforeEach(done => {
+    Gdocs.fetch(config)
+      .then(data => {
+        result = data;
+        done();
+      });
+  });
+
+  it('Should have valid data', () => {
+    expect(typeof result).toBe('object');
+  });
+});
