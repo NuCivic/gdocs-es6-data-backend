@@ -8,9 +8,30 @@ describe('1+1', () => {
   });
 });
 
-describe('Gdocs module', () => {
+describe('Load Gdocs module', () => {
   it('Should load', () => {
     expect(typeof Gdocs).toBe('object');
     expect(Gdocs.__type__).toBe('gdocs');
+  });
+});
+
+describe('Should fetch title', () => {
+  const config = {
+    url: 'https://docs.google.com/spreadsheet/ccc?key=0Aon3JiuouxLUdGZPaUZsMjBxeGhfOWRlWm85MmV0UUE#gid=0'
+  };
+  let result;
+
+  beforeEach(done => {
+    Gdocs.fetchTitle(config).then(data => {
+      console.log('title', data);
+      result = data;
+      done()
+    });
+  });
+
+  it('Should be a string', () => {
+    const title = result.spreadsheetTitle;
+    expect(typeof title).toBe('string');
+    expect(title).toBe('ReclineJS Example');
   });
 });
