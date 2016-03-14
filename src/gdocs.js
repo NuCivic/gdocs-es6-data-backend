@@ -1,5 +1,3 @@
-console.log('Gdocs1');
-
 const Gdocs = {};
 
 Gdocs.__type__ = 'gdocs';
@@ -12,7 +10,6 @@ Gdocs.fetchTitle = function (config) {
         return res.json();
       })
       .then(data => {
-        console.log('r1', data);
         resolve({spreadsheetTitle: data.feed.title.$t});
       });
     }).catch(e => {
@@ -49,7 +46,6 @@ Gdocs.fetch = function (config) {
 					  output.records = parsed.records;
             output.fields = parsed.fields;
             output.useMemoryStore = true;
-            console.log('output', output);
 						resolve(output);
 					})
           .catch(e => {

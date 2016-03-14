@@ -23,7 +23,6 @@ describe('Should fetch title', () => {
 
   beforeEach(done => {
     Gdocs.fetchTitle(config).then(data => {
-      console.log('title', data);
       result = data;
       done()
     });
@@ -52,5 +51,12 @@ describe('Fetch body', () => {
 
   it('Should have valid data', () => {
     expect(typeof result).toBe('object');
+    expect(typeof result.metadata).toBe('object');
+    expect(typeof result.metadata.spreadsheetAPI).toBe('string');
+    expect(typeof result.metadata.worksheetAPI).toBe('string');
+    expect(Array.isArray(result.fields)).toBe(true);
+    expect(result.fields.length > 0).toBe(true);
+    expect(Array.isArray(result.records)).toBe(true);
+    expect(result.records.length > 0).toBe(true);
   });
 });
