@@ -1,6 +1,6 @@
 {
   "name": "gdocs-es6-data-backend",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Backend to fetch data from goodle docs and parse into object. Based heavily on recline backend.",
   "main": "./src/index.js",
   "scripts": {
