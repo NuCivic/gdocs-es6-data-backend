@@ -1,4 +1,4 @@
-import Gdocs from '../src/gdocs';
+import Gdocs from '../src/index';
 
 describe('1+1', () => {
   let sum = 1+1;

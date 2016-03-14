@@ -1,35 +1,34 @@
 {
-  "name": "react-es6-webpack-karma-boilerplate",
-  "version": "1.0.0",
-  "description": "Boilerplate for kick starting a React Project with ES6 (Babel) and Hot reloader using Webpack and Karma test runner.",
-  "main": "index.js",
+  "name": "gdocs-es6-data-backend",
+  "version": "0.0.1",
+  "description": "Backend to fetch data from goodle docs and parse into object. Based heavily on recline backend.",
+  "main": "./src/index.js",
   "scripts": {
     "start": "node server.js",
     "build": "./node_modules/.bin/webpack --config webpack.config.production.js",
     "test": "./node_modules/karma/bin/karma start --single-run --no-auto-watch karma.config.js",
-    "test_watch": "./node_modules/karma/bin/karma start --auto-watch --no-single-run karma.config.js",
     "lint": "./node_modules/.bin/eslint ."
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/mvader/react-es6-webpack-karma-boilerplate.git"
+    "url": "https://github.com/NuCivic/gdocs-es6-data-backend"
   },
   "keywords": [
-    "react",
+    "google",
+    "docs",
+    "gdocs",
+    "backend",
     "es6",
-    "babel",
-    "webpack",
-    "karma"
+    "recline"
   ],
-  "author": "Miguel Molina (http://mvader.me)",
+  "author": "Paul Walker (pjwalker.net)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/mvader/react-es6-webpack-karma-boilerplate/issues"
+    "url": "https://github.com/NuCivic/gdocs-es6-data-backend"
   },
-  "homepage": "https://github.com/mvader/react-es6-webpack-karma-boilerplate",
+  "homepage": "https://github.com/NuCivic/gdocs-es6-data-backend",
   "dependencies": {
-    "babel-runtime": "^6.0.0",
-    "react": "^0.13.3"
+    "babel-runtime": "^6.0.0"
   },
   "devDependencies": {
     "babel-core": "^6.0.0",
@@ -37,19 +36,15 @@
     "babel-loader": "^6.0.0",
     "babel-polyfill": "^6.7.2",
     "eslint": "^0.21.2",
-    "eslint-plugin-react": "^2.3.0",
     "fetch-polyfill": "^0.8.2",
-    "istanbul-instrumenter-loader": "^0.1.3",
     "jasmine-core": "^2.3.4",
     "karma": "^0.13.3",
-    "karma-coverage": "^0.4.2",
     "karma-jasmine": "^0.3.6",
     "karma-phantomjs-launcher": "^0.2.0",
     "karma-spec-reporter": "0.0.20",
     "karma-webpack": "^1.7.0",
     "phantomjs": "^1.9.19",
     "phantomjs-polyfill": "0.0.1",
-    "react-hot-loader": "^1.1.5",
     "webpack": "^1.10.5",
     "webpack-dev-server": "^1.8.0"
   }
